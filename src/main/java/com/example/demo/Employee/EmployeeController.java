@@ -28,4 +28,11 @@ public class EmployeeController {
         String result = employeeService.loginEmployee(request);
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, String>> logout() {
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Logout successful");
+        return ResponseEntity.ok(response);
+    }
 }
