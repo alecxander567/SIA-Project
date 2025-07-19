@@ -28,6 +28,13 @@ public class EmployeeService {
                 encodedPassword
         );
 
+        String role = switch (request.getPosition().toLowerCase()) {
+            case "admin" -> "ADMIN";
+            case "rider", "delivery guy" -> "DELIVERY";
+            default -> "EMPLOYEE";
+        };
+        employee.setRole(role);
+
         employeeRepository.save(employee);
         return "Employee registered successfully!";
     }

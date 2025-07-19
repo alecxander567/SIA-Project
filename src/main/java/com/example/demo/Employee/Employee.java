@@ -20,6 +20,9 @@ public class Employee {
     @Column(name = "position", nullable = false, length = 50)
     private String position;
 
+    @Column(nullable = false)
+    private String role;
+
     @Column(name = "email", nullable = false, unique = true, length = 100)
     private String email;
 
@@ -66,6 +69,14 @@ public class Employee {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getEmail() {
