@@ -18,8 +18,8 @@ public class ItemService {
     @Autowired
     private ItemRepository itemRepository;
 
-    public List<Item> getAllItems() {
-        return itemRepository.findAll();
+    public List<Item> getItemsByCategory(String category) {
+        return itemRepository.findByCategoryIgnoreCase(category);
     }
 
     public Optional<Item> getItemById(Integer id) {
@@ -58,5 +58,13 @@ public class ItemService {
             throw new RuntimeException("Item not found with ID: " + id);
         }
         itemRepository.deleteById(id);
+    }
+
+    public List<Item> getAllItems() {
+        return itemRepository.findAll();
+    }
+
+    public List<Item> searchItemsByName(String name) {
+        return itemRepository.findByItemNameContainingIgnoreCase(name);
     }
 }

@@ -24,8 +24,12 @@ public class ItemController {
     private ItemService itemService;
 
     @GetMapping
-    public List<Item> getAllItems() {
-        return itemService.getAllItems();
+    public List<Item> getAllItems(@RequestParam(required = false) String category) {
+        if (category != null && !category.equalsIgnoreCase("All Categories")) {
+            return itemService.getItemsByCategory(category);
+        } else {
+            return itemService.getAllItems();
+        }
     }
 
     @GetMapping("/{id}")
@@ -72,5 +76,10 @@ public class ItemController {
     @DeleteMapping("/{id}")
     public void deleteItem(@PathVariable Integer id) {
         itemService.deleteItem(id);
+    }
+
+    @GetMapping("/search")
+    public List<Item> searchItemsByName(@RequestParam String name) {
+        return itemService.searchItemsByName(name);
     }
 }
