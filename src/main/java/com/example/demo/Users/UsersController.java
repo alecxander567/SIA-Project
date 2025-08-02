@@ -1,4 +1,4 @@
-package com.example.demo.Employee;
+package com.example.demo.Users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,14 +10,14 @@ import java.util.HashMap;
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/employees")
-public class EmployeeController {
+public class UsersController {
 
     @Autowired
-    private EmployeeService employeeService;
+    private UserService userService;
 
     @PostMapping("/signup")
     public ResponseEntity<Map<String, String>> signup(@RequestBody SignupRequestDTO request) {
-        String result = employeeService.registerEmployee(request);
+        String result = userService.registerEmployee(request);
         Map<String, String> response = new HashMap<>();
         response.put("message", result);
         return ResponseEntity.ok(response);
@@ -25,7 +25,7 @@ public class EmployeeController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO request) {
-        String result = employeeService.loginEmployee(request);
+        String result = userService.loginEmployee(request);
         return ResponseEntity.ok(result);
     }
 

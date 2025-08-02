@@ -1,14 +1,14 @@
-package com.example.demo.Employee;
+package com.example.demo.Users;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tblemployee")
-public class Employee {
+@Table(name = "tblusers")
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Employee_ID")
+    @Column(name = "user_id")
     private Integer id;
 
     @Column(name = "firstName", nullable = false, length = 50)
@@ -29,14 +29,22 @@ public class Employee {
     @Column(name = "password", nullable = false)
     private String password;
 
-    public Employee() {}
+    @Column(name = "sex", nullable = false, length = 10)
+    private String sex;
 
-    public Employee(String firstName, String lastName, String position, String email, String password) {
+    @Column(name = "contactNumber", nullable = false, length = 20)
+    private String contactNumber;
+
+    public Users() {}
+
+    public Users(String firstName, String lastName, String position, String email, String password, String contactNumber, String sex) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.position = position;
         this.email = email;
         this.password = password;
+        this.contactNumber = contactNumber;
+        this.sex = sex;
     }
 
     public Integer getId() {
@@ -93,5 +101,21 @@ public class Employee {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 }

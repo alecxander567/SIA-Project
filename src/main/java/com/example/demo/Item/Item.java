@@ -21,6 +21,9 @@ public class Item {
     @Column(name = "category", nullable = false, length = 50)
     private String category;
 
+    @Column(name = "unit", nullable = false, length = 20)
+    private String unit;
+
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
@@ -31,12 +34,12 @@ public class Item {
     public Item() {
     }
 
-    public Item(String itemName, int quantity, String category, BigDecimal price) {
+    public Item(String itemName, int quantity, String category, String unit, BigDecimal price) {
         this.itemName = itemName;
         this.quantity = quantity;
         this.category = category;
+        this.unit = unit;
         this.price = price;
-
     }
 
     // Getters and Setters
@@ -50,10 +53,6 @@ public class Item {
 
     public String getItemName() {
         return itemName;
-    }
-
-    public String getImagePath() {
-        return imagePath;
     }
 
     public void setItemName(String itemName) {
@@ -76,12 +75,24 @@ public class Item {
         this.category = category;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 
     public void setImagePath(String imagePath) {

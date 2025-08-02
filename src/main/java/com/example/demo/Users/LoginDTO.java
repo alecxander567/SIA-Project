@@ -1,4 +1,4 @@
-package com.example.demo.Employee;
+package com.example.demo.Users;
 
 public class LoginDTO {
     private String email;

@@ -42,6 +42,7 @@ public class ItemController {
             @RequestParam("itemName") String itemName,
             @RequestParam("quantity") int quantity,
             @RequestParam("category") String category,
+            @RequestParam("unit") String unit,
             @RequestParam("price") double price,
             @RequestParam(value = "image", required = false) MultipartFile image
     ) throws IOException {
@@ -50,6 +51,7 @@ public class ItemController {
         item.setItemName(itemName);
         item.setQuantity(quantity);
         item.setCategory(category);
+        item.setUnit(unit); // <- Set the unit value
         item.setPrice(BigDecimal.valueOf(price));
 
         if (image != null && !image.isEmpty()) {

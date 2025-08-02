@@ -1,51 +1,52 @@
-package com.example.demo.Employee;
+package com.example.demo.Users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmployeeService {
+public class UserService {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     public String registerEmployee(SignupRequestDTO request) {
-        if (employeeRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             return "Email already in use!";
         }
 
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
-        Employee employee = new Employee(
-                request.getFirstName(),
-                request.getLastName(),
-                request.getPosition(),
-                request.getEmail(),
-                encodedPassword
-        );
+        Users user = new Users();
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setPosition(request.getPosition());
+        user.setEmail(request.getEmail());
+        user.setPassword(encodedPassword);
+        user.setContactNumber(request.getContactNumber());
+        user.setSex(request.getSex());
 
         String role = switch (request.getPosition().toLowerCase()) {
             case "admin" -> "ADMIN";
             case "rider", "delivery guy" -> "DELIVERY";
             default -> "EMPLOYEE";
         };
-        employee.setRole(role);
+        user.setRole(role);
 
-        employeeRepository.save(employee);
+        userRepository.save(user);
         return "Employee registered successfully!";
     }
 
     public String loginEmployee(LoginDTO request) {
-        Employee employee = employeeRepository.findByEmail(request.getEmail());
-        if (employee == null) {
+        Users user = userRepository.findByEmail(request.getEmail());
+        if (user == null) {
             return "Email not found!";
         }
 
-        if (!passwordEncoder.matches(request.getPassword(), employee.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             return "Invalid password!";
         }
 
