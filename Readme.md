@@ -61,6 +61,4 @@ The backend leverages Spring Boot, JPA, and RESTful APIs. Key methods and approa
 - Java (for the backend)
 - MySQL (for the database)
 
----
 
-Feel free to contribute or raise issues for new features and improvements!
