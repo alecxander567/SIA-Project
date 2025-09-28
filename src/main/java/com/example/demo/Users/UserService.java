@@ -23,33 +23,26 @@ public class UserService {
         Users user = new Users();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setPosition(request.getPosition());
+        user.setPosition(Users.Position.valueOf(request.getPosition().toUpperCase())); // enum
         user.setEmail(request.getEmail());
         user.setPassword(encodedPassword);
         user.setContactNumber(request.getContactNumber());
         user.setSex(request.getSex());
 
-        String role = switch (request.getPosition().toLowerCase()) {
-            case "admin" -> "ADMIN";
-            case "rider", "delivery guy" -> "DELIVERY";
-            default -> "EMPLOYEE";
-        };
-        user.setRole(role);
-
         userRepository.save(user);
         return "Employee registered successfully!";
     }
 
-    public String loginEmployee(LoginDTO request) {
+    public Users loginEmployee(LoginDTO request) {
         Users user = userRepository.findByEmail(request.getEmail());
         if (user == null) {
-            return "Email not found!";
+            return null;
         }
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return "Invalid password!";
+            return null;
         }
 
-        return "Login successful!";
+        return user;
     }
 }

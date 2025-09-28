@@ -21,8 +21,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests ->
                         requests.anyRequest().permitAll()
                 )
-                .cors(Customizer.withDefaults()) // ✅ Enable CORS using default source
-                .csrf(csrf -> csrf.disable());  // ✅ Disable CSRF
+                .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable());
 
         return http.build();
     }
@@ -32,14 +32,17 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅ Define global CORS config for localhost:5173
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // Your frontend origin
+        config.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "http://localhost:5174",
+                "http://localhost:5175"
+        ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // If using cookies/session
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
