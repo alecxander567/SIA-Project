@@ -173,8 +173,12 @@ public class UsersController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", "User not found"));
         }
-
+        
         user.setAttendanceStatus(Users.AttendanceStatus.EXCUSED);
+        user.setTimeIn(null);
+        user.setTimeOut(null);
+        user.setAttendanceDate(null);
+
         userRepository.save(user);
 
         Map<String, String> response = new HashMap<>();
