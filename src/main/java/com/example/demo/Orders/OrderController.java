@@ -126,7 +126,7 @@ public class OrderController {
     }
 
     @PostMapping("/orders/{orderId}/assign-rider/{userId}")
-    public void assignRider(@PathVariable Integer orderId, @PathVariable Integer userId) {
+    public void assignRider(@PathVariable Integer orderId, @PathVariable Long userId) {
         orderService.assignRiderToOrder(orderId, userId);
     }
 }

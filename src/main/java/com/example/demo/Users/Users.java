@@ -1,8 +1,11 @@
 package com.example.demo.Users;
 
+import com.example.demo.Attendance.Attendance;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -11,77 +14,55 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Integer id;
+    private Long id;
 
-    @Column(name = "firstName", nullable = false, length = 50)
+    @Column(name = "firstName")
     private String firstName;
 
-    @Column(name = "lastName", nullable = false, length = 50)
+    @Column(name = "lastName")
     private String lastName;
 
-    public enum Position {
-        ADMIN,
-        RIDER,
-        HR
-    }
-
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "position")
     private Position position;
 
-    @Column(name = "email", nullable = false, unique = true, length = 100)
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @JsonIgnore
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "sex", nullable = false, length = 10)
+    @Column(name = "sex")
     private String sex;
 
-    @Column(name = "contactNumber", nullable = false, length = 20)
+    @Column(name = "contactNumber")
     private String contactNumber;
 
-    public enum AttendanceStatus {
-        ON_TIME,
-        LATE,
-        ABSENT,
-        EXCUSED
+    public enum Position {
+        ADMIN, RIDER, HR
     }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "attendanceStatus", length = 20)
-    private AttendanceStatus attendanceStatus;
-
-    @Column(name = "timeIn")
-    private LocalTime timeIn;
-
-    @Column(name = "timeOut")
-    private LocalTime timeOut;
-
-    @Column(name = "attendanceDate")
-    private LocalDate attendanceDate;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Attendance> attendances = new ArrayList<>();
 
     public Users() {}
 
-    public Users(String firstName, String lastName, Position position, String email,
-                 String password, String contactNumber, String sex,
-                 AttendanceStatus attendanceStatus, LocalTime timeIn, LocalTime timeOut, LocalDate attendanceDate) {
+    public Users(String firstName, String lastName, Position position,
+                 String email, String password, String sex, String contactNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.position = position;
         this.email = email;
         this.password = password;
-        this.contactNumber = contactNumber;
         this.sex = sex;
-        this.attendanceStatus = attendanceStatus;
-        this.timeIn = timeIn;
-        this.timeOut = timeOut;
-        this.attendanceDate = attendanceDate;
+        this.contactNumber = contactNumber;
     }
 
-    // Getters and setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
@@ -104,15 +85,6 @@ public class Users {
     public String getContactNumber() { return contactNumber; }
     public void setContactNumber(String contactNumber) { this.contactNumber = contactNumber; }
 
-    public AttendanceStatus getAttendanceStatus() { return attendanceStatus; }
-    public void setAttendanceStatus(AttendanceStatus attendanceStatus) { this.attendanceStatus = attendanceStatus; }
-
-    public LocalTime getTimeIn() { return timeIn; }
-    public void setTimeIn(LocalTime timeIn) { this.timeIn = timeIn; }
-
-    public LocalTime getTimeOut() { return timeOut; }
-    public void setTimeOut(LocalTime timeOut) { this.timeOut = timeOut; }
-
-    public LocalDate getAttendanceDate() { return attendanceDate; }
-    public void setAttendanceDate(LocalDate attendanceDate) { this.attendanceDate = attendanceDate; }
+    public List<Attendance> getAttendances() { return attendances; }
+    public void setAttendances(List<Attendance> attendances) { this.attendances = attendances; }
 }

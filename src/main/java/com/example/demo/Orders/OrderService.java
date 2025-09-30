@@ -28,7 +28,7 @@ public class OrderService {
     private UserRepository userRepository;
 
     @Transactional
-    public void assignRiderToOrder(Integer orderId, Integer userId) {
+    public void assignRiderToOrder(Integer orderId, Long userId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 

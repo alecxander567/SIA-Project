@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -23,7 +25,7 @@ public class UserService {
         Users user = new Users();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setPosition(Users.Position.valueOf(request.getPosition().toUpperCase())); // enum
+        user.setPosition(Users.Position.valueOf(request.getPosition().toUpperCase()));
         user.setEmail(request.getEmail());
         user.setPassword(encodedPassword);
         user.setContactNumber(request.getContactNumber());
@@ -33,16 +35,20 @@ public class UserService {
         return "Employee registered successfully!";
     }
 
-    public Users loginEmployee(LoginDTO request) {
-        Users user = userRepository.findByEmail(request.getEmail());
-        if (user == null) {
-            return null;
+    public Optional<Users> loginEmployee(LoginDTO request) {
+        Optional<Users> userOptional = Optional.ofNullable(userRepository.findByEmail(request.getEmail()));
+
+        if (userOptional.isEmpty()) {
+            return Optional.empty();
         }
+
+        Users user = userOptional.get();
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return null;
+            return Optional.empty();
         }
 
-        return user;
+        return Optional.of(user);
     }
+
 }

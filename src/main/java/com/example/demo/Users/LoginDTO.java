@@ -11,7 +11,7 @@ public class LoginDTO {
         return email;
     }
 
-    public String getPassword() {
+    public CharSequence getPassword() {
         return password;
     }
 

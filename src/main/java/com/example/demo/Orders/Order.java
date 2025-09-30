@@ -20,7 +20,7 @@ public class Order {
     private Item item;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "employee_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "employee_id")
     private Users employee;
 
     private String customer_name;
