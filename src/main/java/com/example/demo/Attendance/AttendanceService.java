@@ -69,8 +69,11 @@ public class AttendanceService {
 
     @Transactional
     public Attendance markTimeIn(Long userId, LocalDate date, LocalTime timeIn) {
-        Users user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        Optional<Users> userOpt = userRepository.findById(userId);
+
+        Users user = userOpt.orElseThrow(() -> {
+            return new RuntimeException("User not found with id: " + userId);
+        });
 
         Optional<Attendance> existingAttendance = attendanceRepository
                 .findByUserIdAndAttendanceDate(userId, date);
@@ -84,7 +87,9 @@ public class AttendanceService {
                 : Attendance.Status.ON_TIME;
 
         Attendance attendance = new Attendance(date, status, timeIn, user);
-        return attendanceRepository.save(attendance);
+        Attendance saved = attendanceRepository.save(attendance);
+
+        return saved;
     }
 
     @Transactional
