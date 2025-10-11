@@ -45,7 +45,6 @@ public class OrderController {
             throw new RuntimeException("Item ID is required");
         }
 
-        // In OrderController.createOrder()
         if (order.getStatus() == null || order.getStatus().isEmpty()) {
             if ("CashOnDelivery".equals(order.getPayment_type())) {
                 order.setStatus("Pending");
@@ -102,7 +101,6 @@ public class OrderController {
                     order.setStatus("Delivered");
                     Order savedOrder = orderRepository.save(order);
 
-                    // ✅ Send notification
                     String message = "Order #" + orderId + " (" + order.getOrderName() + ") has been delivered.";
                     notificationService.createNotification("Order Delivered", message);
 
@@ -111,7 +109,6 @@ public class OrderController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Add method to mark as paid (to be called by webhook)
     @PutMapping("/{orderId}/paid")
     public ResponseEntity<Order> markAsPaid(@PathVariable Integer orderId) {
         return orderRepository.findById(orderId)
