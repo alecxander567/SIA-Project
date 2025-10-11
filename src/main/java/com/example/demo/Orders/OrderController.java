@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.math.BigDecimal;
+import com.example.demo.Notification.NotificationService;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -18,6 +19,9 @@ public class OrderController {
 
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     private final OrderService orderService;
 
@@ -97,6 +101,11 @@ public class OrderController {
                 .map(order -> {
                     order.setStatus("Delivered");
                     Order savedOrder = orderRepository.save(order);
+
+                    // ✅ Send notification
+                    String message = "Order #" + orderId + " (" + order.getOrderName() + ") has been delivered.";
+                    notificationService.createNotification("Order Delivered", message);
+
                     return ResponseEntity.ok(savedOrder);
                 })
                 .orElse(ResponseEntity.notFound().build());
