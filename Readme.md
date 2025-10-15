@@ -1,64 +1,104 @@
 # SIA-Project
 
-SIA-Project is a comprehensive admin dashboard and management system designed for administrators to manage products, orders, and employee statuses efficiently. The application delivers a modern and responsive interface, with seamless integration between front-end and back-end components.
+A comprehensive admin dashboard and management system designed for administrators to efficiently manage products, orders, and employee statuses. The application features a modern, responsive interface with seamless front-end and back-end integration.
 
-## Technologies Used
+## 🚀 Features
 
-**Front End:**
-- JavaScript
-- React
-- Tailwind CSS
+- **Product Management**
+  - View all products in an organized dashboard
+  - Add, edit, and delete products
+  - Search products by name
+  - Filter products by category
+  - Image upload support for products
 
-**Back End:**
-- Java Spring Boot
-- MySQL
+- **Order Management**
+  - Track order statuses in real-time
+  - Update order information
+  - View order history
 
-[![My Skills](https://skillicons.dev/icons?i=js,react,tailwind,java,spring,mysql)](https://skillicons.dev)
+- **Employee Management**
+  - Monitor employee statuses
+  - Role-based access control (Admin, Delivery, Employee)
+  - Secure authentication and authorization
 
-## Backend Implementation Methods
+- **Analytics Dashboard**
+  - View top-selling items
+  - Monitor business metrics
+  - Data visualization
 
-The backend leverages Spring Boot, JPA, and RESTful APIs. Key methods and approaches include:
+## 🛠️ Tech Stack
 
-- **User Management:**
-  - `registerEmployee(SignupRequestDTO request)`: Registers a new employee after checking for unique email and encodes the password with BCrypt.
-  - `loginEmployee(LoginDTO request)`: Authenticates users by verifying email and encrypted passwords.
-  - User data is managed using JPA repositories (`UserRepository`) with custom queries like `existsByEmail` and `findByEmail`.
+### Frontend
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
 
-- **Product Management:**
-  - `getAllItems()`: Retrieves all products.
-  - `getItemById(Integer id)`: Gets a product by its ID.
-  - `addItem(Item item)`: Adds new products.
-  - `updateItem(Integer id, Item updatedItem, MultipartFile imageFile)`: Updates existing products, including handling image uploads.
-  - `deleteItem(Integer id)`: Deletes products by ID.
-  - `getItemsByCategory(String category)`: Filters products by category.
-  - `searchItemsByName(String name)`: Searches for products by name.
+### Backend
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Spring Data JPA](https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 
-- **API Structure:**
-  - REST endpoints for items: `GET /api/items`, `POST /api/items`, `PUT /api/items/{id}`, `DELETE /api/items/{id}`, `GET /api/items/search`.
-  - REST endpoints for users: `POST /api/employees/signup`, `POST /api/employees/login`, `POST /api/employees/logout`.
+## 🔐 API Endpoints
 
-- **Security:**
-  - Passwords are encrypted with BCrypt.
-  - Role assignment is based on user position (admin, delivery, employee).
+### Authentication
+- `POST /api/employees/signup` - Register a new employee
+- `POST /api/employees/login` - Authenticate user
+- `POST /api/employees/logout` - Logout user
 
-- **Data Persistence:**
-  - Uses Spring Data JPA for ORM and repository patterns.
-  - Entity classes are mapped to MySQL database tables.
+### Products
+- `GET /api/items` - Get all products
+- `GET /api/items/{id}` - Get product by ID
+- `POST /api/items` - Add new product
+- `PUT /api/items/{id}` - Update product
+- `DELETE /api/items/{id}` - Delete product
+- `GET /api/items/search?name={name}` - Search products by name
+- `GET /api/items/category/{category}` - Filter by category
 
-## Features
+### Orders
+- `GET /api/orders` - Get all orders
+- `PUT /api/orders/{id}` - Update order status
 
-- View all products
-- Add, edit, and delete products
-- Track and update order statuses
-- Monitor employee statuses
-- View analytics for top-selling items
+### Employee Status
+- `GET /api/statuses` - Get all employee statuses
+- `POST /api/statuses/add` - Add new status
+- `PUT /api/statuses/edit/{id}` - Update status
+- `DELETE /api/statuses/delete/{id}` - Delete status
 
-## Getting Started
+## 🏗️ Backend Architecture
 
-### Prerequisites
+### Key Components
 
-- Node.js and npm (for the front end)
-- Java (for the backend)
-- MySQL (for the database)
+**User Management:**
+- `registerEmployee(SignupRequestDTO request)` - Registers new employees with unique email validation and BCrypt password encryption
+- `loginEmployee(LoginDTO request)` - Authenticates users by verifying credentials
+- Custom JPA queries: `existsByEmail`, `findByEmail`
 
+**Product Management:**
+- `getAllItems()` - Retrieves all products
+- `getItemById(Integer id)` - Gets product by ID
+- `addItem(Item item)` - Adds new products
+- `updateItem(Integer id, Item updatedItem, MultipartFile imageFile)` - Updates products with image support
+- `deleteItem(Integer id)` - Deletes products
+- `getItemsByCategory(String category)` - Filters by category
+- `searchItemsByName(String name)` - Search functionality
+
+**Security Features:**
+- BCrypt password encryption
+- Role-based access control
+- Session management with credentials
+
+**Data Persistence:**
+- Spring Data JPA for ORM
+- Repository pattern implementation
+- Entity classes mapped to MySQL tables
+
+## 🔒 Security
+
+- Passwords are encrypted using BCrypt before storage
+- Role-based access control ensures proper authorization
+- Secure session management with HTTP-only cookies
+- CORS configuration for secure cross-origin requests
 
