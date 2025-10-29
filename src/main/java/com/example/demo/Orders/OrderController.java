@@ -102,7 +102,7 @@ public class OrderController {
                     Order savedOrder = orderRepository.save(order);
 
                     String message = "Order #" + orderId + " (" + order.getOrderName() + ") has been delivered.";
-                    notificationService.createNotification("Order Delivered", message);
+                    notificationService.createNotification("Order Delivered", message, savedOrder);
 
                     return ResponseEntity.ok(savedOrder);
                 })

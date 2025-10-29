@@ -1,5 +1,6 @@
 package com.example.demo.Notification;
 
+import com.example.demo.Orders.Order;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -19,5 +20,10 @@ public class NotificationService {
 
     public List<Notification> getAllNotifications() {
         return notificationRepository.findAll();
+    }
+
+    public Notification createNotification(String title, String message, Order order) {
+        Notification notification = new Notification(title, message, order);
+        return notificationRepository.save(notification);
     }
 }
