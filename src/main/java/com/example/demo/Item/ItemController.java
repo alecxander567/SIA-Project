@@ -1,5 +1,6 @@
 package com.example.demo.Item;
 
+import com.example.demo.Orders.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +18,17 @@ import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/items")
-@CrossOrigin(origins = "*") // allow frontend access (can be restricted later)
+@CrossOrigin(origins = "*")
 public class ItemController {
 
     @Autowired
     private ItemService itemService;
+
+    @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @GetMapping
     public List<Item> getAllItems(@RequestParam(required = false) String category) {
@@ -75,9 +82,17 @@ public class ItemController {
         return ResponseEntity.ok(itemService.updateItem(id, item, imageFile));
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteItem(@PathVariable Integer id) {
-        itemService.deleteItem(id);
+    public void deleteItem(Integer id) {
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Item not found"));
+
+        boolean hasOrders = orderRepository.existsByItemId(id);
+
+        if (hasOrders) {
+            throw new RuntimeException("Cannot delete item: it has existing customer orders");
+        }
+
+        itemRepository.delete(item);
     }
 
     @GetMapping("/search")

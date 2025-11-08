@@ -36,14 +36,19 @@ public class OrderController {
 
     @PostMapping
     public Order createOrder(@RequestBody Order order) {
-        if (order.getItem() != null && order.getItem().getId() != null) {
-            Item item = itemRepository.findById(order.getItem().getId())
-                    .orElseThrow(() -> new RuntimeException("Item not found"));
-            order.setItem(item);
-            order.setOrderName(item.getItemName());
-        } else {
+        if (order.getItem() == null || order.getItem().getId() == null) {
             throw new RuntimeException("Item ID is required");
         }
+
+        Item item = itemRepository.findById(order.getItem().getId())
+                .orElseThrow(() -> new RuntimeException("Item not found"));
+
+        if (order.getQuantity() > item.getQuantity()) {
+            throw new RuntimeException("Order quantity exceeds available stock");
+        }
+
+        order.setItem(item);
+        order.setOrderName(item.getItemName());
 
         if (order.getStatus() == null || order.getStatus().isEmpty()) {
             if ("CashOnDelivery".equals(order.getPayment_type())) {
@@ -59,7 +64,11 @@ public class OrderController {
             throw new RuntimeException("Contact number is required");
         }
 
-        return orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+        item.setQuantity(item.getQuantity() - order.getQuantity());
+        itemRepository.save(item);
+
+        return savedOrder;
     }
 
     @PutMapping("/{orderId}")
